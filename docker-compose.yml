@@ -1,0 +1,13 @@
+version: '3'
+services:
+  esp:
+    build: .
+    restart: always
+    ports:
+      - "127.0.0.1:5010:8080"
+    volumes:
+      - /var/log/esp:/logs
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_USER_NAME=${DATABASE_USER_NAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
