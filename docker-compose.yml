@@ -1,5 +1,11 @@
 version: '3'
 services:
+  database:
+    image: mysql:8.0.22
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ESP
   esp:
     build: .
     restart: always
@@ -7,7 +13,9 @@ services:
       - "127.0.0.1:5010:8080"
     volumes:
       - /var/log/esp:/logs
+    depends_on:
+      - database
     environment:
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_USER_NAME=${DATABASE_USER_NAME}
+      - DATABASE_HOST=database
+      - DATABASE_USER_NAME=root
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
