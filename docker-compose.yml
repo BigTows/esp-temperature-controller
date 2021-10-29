@@ -6,6 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_DATABASE: ESP
+    volumes:
+      - /var/docker/esp/mysql:/var/lib/mysql
   esp:
     build: .
     restart: always
