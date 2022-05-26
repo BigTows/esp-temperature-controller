@@ -51,14 +51,3 @@ jobs:
           tag-fields: "[\"image.tag\"]"
         env:
           KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
-  notification-telegram:
-    needs: update-staging-platform
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - uses: xinthink/action-telegram@v1.1
-        with:
-          botToken: ${{ secrets.TG_BOT_TOKEN }}
-          chatId: ${{ secrets.TG_CHAT_ID }}
-          jobStatus: ${{ needs.update-staging-platform.outputs.job-status }}
-          skipSuccess: false
