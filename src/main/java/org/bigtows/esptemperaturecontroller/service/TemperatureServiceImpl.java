@@ -2,6 +2,7 @@ package org.bigtows.esptemperaturecontroller.service;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.bigtows.esptemperaturecontroller.domain.DeviceEntity;
 import org.bigtows.esptemperaturecontroller.domain.TemperatureEntity;
 import org.bigtows.esptemperaturecontroller.repository.DeviceEntityRepository;
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class TemperatureServiceImpl implements TemperatureService {
@@ -28,6 +30,7 @@ public class TemperatureServiceImpl implements TemperatureService {
 
     @Override
     public void addTemperature(Long deviceId, Long timestamp, float temperature, String signature) {
+        log.info("Try add temperature for device: {} ({} C)", deviceId, temperature);
         var device = deviceEntityRepository.findById(deviceId).orElseThrow();
         this.validateSignature(device, timestamp, temperature, signature);
         var maxTimestamp = temperatureEntityRepository.getMaxTimestampByDeviceEntityId(deviceId);
