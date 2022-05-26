@@ -31,7 +31,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/esp-controller:latest
+          tags: ghcr.io/bigtows/esp-controller:latest
 #  update-staging-platform:
 #    needs: publishing-to-docker
 #    runs-on: ubuntu-latest
