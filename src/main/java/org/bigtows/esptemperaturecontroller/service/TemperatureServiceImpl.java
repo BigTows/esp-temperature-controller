@@ -32,7 +32,7 @@ public class TemperatureServiceImpl implements TemperatureService {
     public void addTemperature(Long deviceId, Long timestamp, float temperature, String signature) {
         log.info("Try add temperature for device: {} ({} C)", deviceId, temperature);
         var device = deviceEntityRepository.findById(deviceId).orElseThrow();
-        this.validateSignature(device, timestamp, temperature, signature);
+        //TODO ENABLE!! this.validateSignature(device, timestamp, temperature, signature);
         var maxTimestamp = temperatureEntityRepository.getMaxTimestampByDeviceEntityId(deviceId);
 
         if (maxTimestamp != null && maxTimestamp >= timestamp) {
