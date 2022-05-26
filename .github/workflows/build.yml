@@ -33,7 +33,7 @@ jobs:
           push: true
           tags: ghcr.io/bigtows/esp-controller:latest
   update-platform:
-    #TODO needs: publishing-to-docker
+    needs: publishing-to-docker
     runs-on: ubuntu-latest
     outputs:
       job-status: ${{ job.status }}

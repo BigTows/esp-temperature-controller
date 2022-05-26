@@ -22,6 +22,16 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          env:
+            - name: DATABASE_HOST
+              value: "postgres-postgresql"
+            - name: DATABASE_USER_NAME
+              value: "postgres"
+            - name: DATABASE_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: postgres-postgresql
+                    key: postgres-password
           readinessProbe:
             httpGet:
               path: /actuator/health
