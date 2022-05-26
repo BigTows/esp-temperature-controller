@@ -28,10 +28,10 @@ spec:
             - name: DATABASE_USER_NAME
               value: "postgres"
             - name: DATABASE_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres-postgresql
-                    key: postgres-password
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-postgresql
+                  key: postgres-password
           readinessProbe:
             httpGet:
               path: /actuator/health
