@@ -32,33 +32,33 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/bigtows/esp-controller:latest
-#  update-staging-platform:
-#    needs: publishing-to-docker
-#    runs-on: ubuntu-latest
-#    outputs:
-#      job-status: ${{ job.status }}
-#    steps:
-#      - name: Checkout service
-#        uses: actions/checkout@v2
-#      - uses: ivido/helm-deploy@v1
-#        with:
-#          release: gateway
-#          namespace: devbuff
-#          timeout: 400s
-#          chart: .
-#          secrets-files: "./chart/values.staging.yaml"
-#          tag: ${{ github.sha }}
-#          tag-fields: "[\"image.tag\"]"
-#        env:
-#          KUBECONFIG_FILE: ${{ secrets.STAGING_KUBECONFIG }}
-#  notification-telegram:
-#    needs: update-staging-platform
-#    runs-on: ubuntu-latest
-#    if: ${{ always() }}
-#    steps:
-#      - uses: xinthink/action-telegram@v1.1
-#        with:
-#          botToken: ${{ secrets.TG_BOT_TOKEN }}
-#          chatId: ${{ secrets.TG_CHAT_ID }}
-#          jobStatus: ${{ needs.update-staging-platform.outputs.job-status }}
-#          skipSuccess: false
+  update-platform:
+    needs: publishing-to-docker
+    runs-on: ubuntu-latest
+    outputs:
+      job-status: ${{ job.status }}
+    steps:
+      - name: Checkout service
+        uses: actions/checkout@v2
+      - uses: ivido/helm-deploy@v1
+        with:
+          release: esp-controller
+          namespace: home
+          timeout: 400s
+          chart: .
+          secrets-files: "./chart/values.default.yaml"
+          tag: latest
+          tag-fields: "[\"image.tag\"]"
+        env:
+          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
+  notification-telegram:
+    needs: update-staging-platform
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - uses: xinthink/action-telegram@v1.1
+        with:
+          botToken: ${{ secrets.TG_BOT_TOKEN }}
+          chatId: ${{ secrets.TG_CHAT_ID }}
+          jobStatus: ${{ needs.update-staging-platform.outputs.job-status }}
+          skipSuccess: false

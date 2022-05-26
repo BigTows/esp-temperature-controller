@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: esp-controller
+  labels:
+    app: esp-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: esp-controller
+  template:
+    metadata:
+      labels:
+        app: esp-controller
+      annotations:
+        rollme: {{ randAlphaNum 10 | quote }}
+    spec:
+      containers:
+        - name: esp-controller
+          image: ghcr.io/bigtows/esp-controller:{{ .Values.image.tag }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            failureThreshold: 15
+      imagePullSecrets:
+        - name: dpr-secret
