@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: esp-controller
-          image: ghcr.io/bigtows/esp-controller:latest
+          image: ghcr.io/bigtows/esp-controller:{{ .Values.image.tag }}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

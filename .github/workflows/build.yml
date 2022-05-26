@@ -33,7 +33,7 @@ jobs:
           push: true
           tags: ghcr.io/bigtows/esp-controller:latest
   update-platform:
-    needs: publishing-to-docker
+    #TODO needs: publishing-to-docker
     runs-on: ubuntu-latest
     outputs:
       job-status: ${{ job.status }}
@@ -46,7 +46,7 @@ jobs:
           namespace: home
           timeout: 400s
           chart: .
-          secrets-files: "./chart/values.default.yaml"
+          secrets-files: "./charts/values.default.yaml"
           tag: latest
           tag-fields: "[\"image.tag\"]"
         env:
